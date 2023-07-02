@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ChatGPT Chrome Extension</title>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-box {
+  width: 400px;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.message {
+  margin: 0 0 10px 0;
+}
+
+.user-message {
+  background-color: #ccc;
+}
+
+.bot-message {
+  background-color: #eee;
+}
+</style>
+</head>
+<body>
+<div class="chat-box">
+  <div class="message user-message">
+    <input type="text" id="message" />
+    <button type="button" onclick="sendMessage()">Send</button>
+  </div>
+  <div class="message bot-message"></div>
+</div>
+<script>
+var apiKey = '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';
+
+function chat(message) {
+  var url = 'https://api.openai.com/v1/chat/completions';
+  var headers = {'Authorization': 'Bearer ' + encodeURIComponent(apiKey)};
+  var data = {'prompt': message};
+
+  var response = requests.post(url, headers=headers, data=data);
+  response.raise_for_status();
+
+  return response.json()['choices'][0]['text'];
+}
+
+function sendMessage() {
+  var message = document.getElementById('message').value;
+  var botMessage = chat(message);
+
+  document.getElementsByClassName('message')[1].innerHTML = botMessage;
+}
+</script>
+</body>
+</html>
